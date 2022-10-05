@@ -1,0 +1,26 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<button class="btn btn-primary" @onclick="StartSpeedAsync">Start</button>
+<br />
+
+@if (_isBusy)
+{
+	<h4>Loading....</h4>
+}
+else
+{
+	<ul>
+		<li>@_records?.Length records found</li>
+		<li>@_currentTime.ToString(@"mm\:ss\.fff")</li>
+	</ul>
+	<div style="display:flex;flex-direction: column">
+		<div class="d-flex justify-content-center mb-4">
+			<h2> <span style="font-family:Rugen;font-size:60px;font-weight:600;text-shadow: #FFF 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, #FF4233 0px 0px 20px, #FD3424 0px 0px 30px, #FF2312 0px 0px 40px, #EA1202 0px 0px 50px, #D30F01 0px 0px 75px;">@_currentSpeed</span> <span style="color:red; font-size:20px;font-family: 'Segoe UI';font-weight:600;">Km/h</span></h2>
+		</div>
+		<Speedometer Speed="@_currentSpeed" />
+	</div>
+}
+
+

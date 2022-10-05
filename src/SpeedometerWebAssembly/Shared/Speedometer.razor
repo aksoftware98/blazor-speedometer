@@ -1,0 +1,37 @@
+﻿<div class="container">
+	<div class="items">
+		@for (var i = 0; i < _itemsCount; i++)
+		{
+			int index = i;
+			bool isLighting = false;
+			var style = GetItemStyle(index, out isLighting);
+			<div class="line @(isLighting ? "flickering" : "")" style="@style">
+			</div>
+		}
+	</div>
+</div>
+
+<style>
+	.container {
+		display:inline-block; 
+		width: 540px;
+		height:55px;
+		overflow:hidden; 
+	}
+
+	.items {
+		display: flex;
+		flex-direction: row; 
+		justify-content: space-between;
+		align-items: end;
+	}
+
+	.line {
+		width: 7px; 
+		background-color: rgba(100, 100, 100, 0.5);
+		transition: 0.3s;
+		border-radius: 20px;
+	}
+
+</style>
+

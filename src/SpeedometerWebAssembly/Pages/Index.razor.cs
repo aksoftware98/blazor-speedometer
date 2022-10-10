@@ -48,7 +48,10 @@ namespace SpeedometerWebAssembly.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            await FetchAsync(); 
+            await FetchAsync();
+            StateHasChanged();
+            await Task.Delay(15000);
+            await StartSpeedAsync();
         }
 
         private GpsRecord[]? _records = null;

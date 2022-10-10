@@ -1,4 +1,4 @@
-﻿<div class="d-flex justify-content-center align-items-center flex-column">
+﻿<div class="d-flex justify-content-end align-items-center flex-column" style="height:130px;">
 	@if (_isFinished)
 	{
 		<img src="images/chequered-flag.png" />
@@ -6,7 +6,7 @@
 	else
 	{
 		<div class="laps-counter text-center">
-			<h4 style="margin-bottom:0">Lap @_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
+			<h4 style="margin-bottom:0" class="@(_isFinished ? "flickering" : "")">Lap @_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
 		</div>
 	}
 

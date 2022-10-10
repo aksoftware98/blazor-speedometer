@@ -15,12 +15,20 @@ else
 		<li>@_records?.Length records found</li>
 		<li>@_currentTime.ToString(@"mm\:ss\.fff")</li>
 	</ul>
-	<div style="display:flex;flex-direction: column">
-		<div class="d-flex justify-content-center mb-4">
-			<h2> <span style="font-family:Rugen;font-size:60px;font-weight:600;text-shadow: #FFF 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, #FF4233 0px 0px 20px, #FD3424 0px 0px 30px, #FF2312 0px 0px 40px, #EA1202 0px 0px 50px, #D30F01 0px 0px 75px;">@_currentSpeed</span> <span style="color:red; font-size:20px;font-family: 'Segoe UI';font-weight:600;">Km/h</span></h2>
+
+	<div class="d-flex justify-content-between align-items-end" style="width:1920px;margin:auto;padding-right:20px;padding-left:20px;">
+
+		<LapCounter />
+
+		<div style="display:flex;flex-direction: column">
+			<div class="d-flex justify-content-between align-items-center mb-4 speedometer" style="font-family:Rugen;font-style:italic">
+				<h2 style="width:100px; color:white;padding-left: 10px;margin-bottom:0">@_currentSpeed</h2><h5 style="color:black;padding-right:10px; font-size:15px;margin-bottom:0">KM/H</h5>
+			</div>
+			@*<Speedometer Speed="@_currentSpeed" />*@
 		</div>
-		<Speedometer Speed="@_currentSpeed" />
 	</div>
+
+	
 }
 
 <br />
@@ -29,5 +37,18 @@ else
 <br />
 <br />
 <br />
-<LapCounter />
 
+
+<style>
+	.speedometer {
+		border-bottom-right-radius: 30px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 2px;
+		border-bottom-left-radius: 2px;
+		border: 2px solid rgba(10, 10, 10);
+		background-color: #616161;
+		overflow: hidden;
+		width: 156px;
+		height: 50px;
+	}
+</style>

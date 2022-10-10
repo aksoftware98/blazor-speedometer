@@ -42,7 +42,7 @@ namespace SpeedometerWebAssembly.Shared
         {
             await FetchLapsAsync();
             StateHasChanged();
-            await Task.Delay(30000);
+            await Task.Delay(45000);
             await StartAsync();
         }
 
@@ -115,7 +115,7 @@ namespace SpeedometerWebAssembly.Shared
                     Preview(_laps[i - 1], currentLap);
             }
             await Task.Delay(7500);
-            _time = "Finish";
+            _time = _fastestLap.LapTime.ToString("mm\\:ss\\.fff");
             _isFinished = true;
         }
 
@@ -131,12 +131,12 @@ namespace SpeedometerWebAssembly.Shared
             else
             {
                 var difference = currentLap.LapTime - previousLap?.LapTime;
-                if (_fastestLap.LapTime >= currentLap.LapTime)
+                if (_fastestLap.LapTime > currentLap.LapTime)
                 {
                     secondTime = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.FastestLap;
                 }
-                else if (previousLap?.LapTime > currentLap.LapTime)
+                else if (previousLap?.LapTime >= currentLap.LapTime)
                 {
                     secondTime = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.Fast;

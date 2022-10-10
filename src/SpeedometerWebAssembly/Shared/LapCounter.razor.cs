@@ -42,7 +42,7 @@ namespace SpeedometerWebAssembly.Shared
         {
             await FetchLapsAsync();
             StateHasChanged();
-            await Task.Delay(45000);
+            await Task.Delay(15000 + 15000);
             await StartAsync();
         }
 

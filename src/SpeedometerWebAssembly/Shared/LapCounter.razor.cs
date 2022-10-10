@@ -117,7 +117,7 @@ namespace SpeedometerWebAssembly.Shared
         private void Preview(Lap previousLap, Lap currentLap)
         {
             _isPreview = true;
-            var fullTime = currentLap.TimeAsString;
+            var fullTime = currentLap.LapTime.ToString("mm\\:ss\\.fff");
             var secondTime = string.Empty;
             if (previousLap == null)
             {
@@ -143,6 +143,7 @@ namespace SpeedometerWebAssembly.Shared
                 }
             }
             bool firstRender = previousLap != null;
+            _time = fullTime;
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 3500;
             timer.AutoReset = true;

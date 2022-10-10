@@ -1,0 +1,17 @@
+﻿@keyframes flickeringanimation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+.flickering {
+    animation: flickeringanimation 0.4s infinite;
+}

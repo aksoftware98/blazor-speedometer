@@ -1,16 +1,16 @@
-﻿<div class="time-board d-flex">
+﻿<h4>@_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
+<div class="time-board d-flex" style="@_borderStyles" @onclick="StartAsync">
 	<div class="position flex-shrink-0 d-flex justify-content-center align-items-center">
-		<h2>1</h2>
+		<h2>@_position</h2>
 	</div>
 	<div class="timing flex-grow-1">
 		<div class="name">
 			<p style="margin-bottom:0px">Ahmad Mozaffar</p>
 		</div>
-		<div class="timer  d-flex justify-content-center align-items-center">
-			<h2>01:10.541</h2>
+		<div class="timer  d-flex justify-content-start align-items-center">
+			<h2 class="@_timingClasses" style="@_timingStyles">@_time</h2>
 		</div>
 	</div>
-
 </div>
 
 <style>
@@ -50,4 +50,10 @@
 		background: rgba(25, 25, 25);
 		text-align: center;
 	}
+
+	.timer {
+		padding-left: 8px;
+	}
+	
 </style>
+

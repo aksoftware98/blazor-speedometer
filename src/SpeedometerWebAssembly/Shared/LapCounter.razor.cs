@@ -34,7 +34,7 @@ namespace SpeedometerWebAssembly.Shared
 
 
 
-        const string PurpleGradient = "#A302C3";
+        const string PurpleGradient = "#C100E7";
         const string GreenGradient = "#2ED800";
         const string OrangeGradient = "#FDAD00";
         override protected async Task OnInitializedAsync()
@@ -67,7 +67,7 @@ namespace SpeedometerWebAssembly.Shared
                                             .AddStyle("border-color", GreenGradient, _isPreview && _lapStatus == LapImprovementStatus.Fast)
                                             .AddStyle("border-color", OrangeGradient, _isPreview && _lapStatus == LapImprovementStatus.Slow)
                                             .Build();
-        
+
 
         private async Task FetchLapsAsync()
         {
@@ -117,9 +117,10 @@ namespace SpeedometerWebAssembly.Shared
         private void Preview(Lap previousLap, Lap currentLap)
         {
             _isPreview = true;
+            var fullTime = currentLap.TimeAsString;
+            var secondTime = string.Empty;
             if (previousLap == null)
             {
-                _time = currentLap.TimeAsString;
                 _lapStatus = LapImprovementStatus.Fast;
             }
             else
@@ -127,28 +128,40 @@ namespace SpeedometerWebAssembly.Shared
                 var difference = currentLap.LapTime - previousLap?.LapTime;
                 if (_fastestLap.LapTime >= currentLap.LapTime)
                 {
-                    _time = FormatLapTimeFromDifference(difference);
+                    secondTime = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.FastestLap;
                 }
                 else if (previousLap?.LapTime > currentLap.LapTime)
                 {
-                    _time = FormatLapTimeFromDifference(difference);
+                    secondTime = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.Fast;
                 }
                 else /*if (previousLap?.LapTime < currentLap.LapTime)*/
                 {
-                    _time = FormatLapTimeFromDifference(difference);
+                    secondTime = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.Slow;
                 }
             }
+            bool firstRender = previousLap != null;
             System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 5000;
-            timer.AutoReset = false;
+            timer.Interval = 3500;
+            timer.AutoReset = true;
             timer.Start();
             timer.Elapsed += (s, e) =>
             {
-                _isPreview = false;
-                StateHasChanged();
+                if (firstRender)
+                {
+                    _time = secondTime;
+                    StateHasChanged();
+                    firstRender = false;
+                }
+                else
+                {
+                    _isPreview = false;
+                    StateHasChanged();
+                    timer.Stop();
+                    timer.Dispose();
+                }
             };
         }
 

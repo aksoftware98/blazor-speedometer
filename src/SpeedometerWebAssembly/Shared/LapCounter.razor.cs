@@ -41,6 +41,9 @@ namespace SpeedometerWebAssembly.Shared
         override protected async Task OnInitializedAsync()
         {
             await FetchLapsAsync();
+            StateHasChanged();
+            await Task.Delay(30000);
+            await StartAsync();
         }
 
         private string _timingClasses => new CssBuilder()
@@ -162,7 +165,6 @@ namespace SpeedometerWebAssembly.Shared
                 {
                     _isPreview = false;
                     StateHasChanged();
-                    _isFinished = true;
                     timer.Stop();
                     timer.Dispose();
                 }

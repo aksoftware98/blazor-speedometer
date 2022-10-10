@@ -4,7 +4,7 @@
     }
 
     50% {
-        opacity: 0.4
+        opacity: 0.6
     }
 
     100% {
@@ -13,5 +13,5 @@
 }
 
 .flickering {
-    animation: flickeringanimation 0.4s infinite;
+    animation: flickeringanimation 0.2s infinite;
 }

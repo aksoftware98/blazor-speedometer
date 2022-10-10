@@ -25,27 +25,25 @@ namespace SpeedometerWebAssembly.Shared
 
         private List<Lap>? _laps = null;
         private bool _isStarted = false;
-        private bool _isFinalLap = false;
-        private string? _time = "Formation Lap";
+        private string? _time = "Warm Up";
         private int _position = 1;
         private int _lapNumber = 0;
-        private readonly Stack<Lap>? _finishedLaps = new();
         private bool _isPreview;
         private LapImprovementStatus _lapStatus;
         private Lap? _fastestLap = null;
 
 
 
-        const string PurpleGradient = "border-image: linear-gradient(#C300EA, #76008E) 30;";
-        const string GreenGradient = "border-image: linear-gradient(#13CF00, #0D8E00) 30;";
-        const string OrangeGradient = "border-image: linear-gradient(#E7BF0A, #FDAD00) 30;";
+        const string PurpleGradient = "#A302C3";
+        const string GreenGradient = "#2ED800";
+        const string OrangeGradient = "#FDAD00";
         override protected async Task OnInitializedAsync()
         {
             await FetchLapsAsync();
         }
 
         private string _timingClasses => new CssBuilder()
-                                            .AddClass("flickering", !_isStarted)
+                                            .AddClass("flickering", _isPreview)
                                             .Build();
 
 
@@ -54,17 +52,27 @@ namespace SpeedometerWebAssembly.Shared
                                     .AddStyle("color", PurpleGradient, _isPreview && _lapStatus == LapImprovementStatus.FastestLap)
                                     .AddStyle("color", GreenGradient, _isPreview && _lapStatus == LapImprovementStatus.Fast)
                                     .AddStyle("color", OrangeGradient, _isPreview && _lapStatus == LapImprovementStatus.Slow)
+                                    .AddStyle("margin-left", "10px", !_isPreview)
                                     .Build();
+
+        private string _positionStyles => new StyleBuilder()
+                                   .AddStyle("background-color", PurpleGradient, _isPreview && _lapStatus == LapImprovementStatus.FastestLap)
+                                   .AddStyle("background-color", GreenGradient, _isPreview && _lapStatus == LapImprovementStatus.Fast)
+                                   .AddStyle("background-color", OrangeGradient, _isPreview && _lapStatus == LapImprovementStatus.Slow)
+                                   .Build();
+
+
         private string _borderStyles => new StyleBuilder()
-                                            .AddStyle("border-image", PurpleGradient, _isPreview && _lapStatus == LapImprovementStatus.FastestLap)
-                                            .AddStyle("border-image", GreenGradient, _isPreview && _lapStatus == LapImprovementStatus.Fast)
-                                            .AddStyle("border-image", OrangeGradient, _isPreview && _lapStatus == LapImprovementStatus.Slow)
+                                            .AddStyle("border-color", PurpleGradient, _isPreview && _lapStatus == LapImprovementStatus.FastestLap)
+                                            .AddStyle("border-color", GreenGradient, _isPreview && _lapStatus == LapImprovementStatus.Fast)
+                                            .AddStyle("border-color", OrangeGradient, _isPreview && _lapStatus == LapImprovementStatus.Slow)
                                             .Build();
         
 
         private async Task FetchLapsAsync()
         {
             _laps = await HttpClient.GetFromJsonAsync<List<Lap>>("sessions/session_01_timings.json");
+            _fastestLap = _laps.MinBy(m => m.LapTime);
         }
 
         private async Task StartAsync()
@@ -102,6 +110,8 @@ namespace SpeedometerWebAssembly.Shared
                 else
                     Preview(_laps[i - 1], currentLap);
             }
+            await Task.Delay(5000);
+            _time = "Finish";
         }
 
         private void Preview(Lap previousLap, Lap currentLap)
@@ -115,9 +125,13 @@ namespace SpeedometerWebAssembly.Shared
             else
             {
                 var difference = currentLap.LapTime - previousLap?.LapTime;
-                if (previousLap?.LapTime > currentLap.LapTime)
+                if (_fastestLap.LapTime >= currentLap.LapTime)
                 {
-                    _fastestLap = currentLap;
+                    _time = FormatLapTimeFromDifference(difference);
+                    _lapStatus = LapImprovementStatus.FastestLap;
+                }
+                else if (previousLap?.LapTime > currentLap.LapTime)
+                {
                     _time = FormatLapTimeFromDifference(difference);
                     _lapStatus = LapImprovementStatus.Fast;
                 }

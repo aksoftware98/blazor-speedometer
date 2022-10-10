@@ -1,16 +1,21 @@
-﻿<h4>@_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
-<div class="time-board d-flex" style="@_borderStyles" @onclick="StartAsync">
-	<div class="position flex-shrink-0 d-flex justify-content-center align-items-center">
-		<h2>@_position</h2>
+﻿<div class="d-flex justify-content-center flex-column">
+	<div class="laps-counter text-center">
+		<h4>@_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
 	</div>
-	<div class="timing flex-grow-1">
-		<div class="name">
-			<p style="margin-bottom:0px">Ahmad Mozaffar</p>
+	<div class="time-board d-flex" style="@_borderStyles" @onclick="StartAsync">
+		<div style="@_positionStyles" class="position flex-shrink-0 d-flex justify-content-center align-items-center">
+			<h2>@_position</h2>
 		</div>
-		<div class="timer  d-flex justify-content-start align-items-center">
-			<h2 class="@_timingClasses" style="@_timingStyles">@_time</h2>
+		<div class="timing flex-grow-1">
+			<div class="name">
+				<p style="margin-bottom:0px">Ahmad Mozaffar</p>
+			</div>
+			<div class="timer  d-flex justify-content-@(_isPreview ? "center" : "start") align-items-center">
+				<h2 class="@_timingClasses" style="@_timingStyles">@_time</h2>
+			</div>
 		</div>
 	</div>
+
 </div>
 
 <style>
@@ -22,7 +27,7 @@
 		border: 4px solid gray;
 		background-color: rgba(76, 76, 76);
 		overflow: hidden;
-		width: 300px;
+		width: 330px;
 		height: 70px;
 	}
 
@@ -50,10 +55,22 @@
 		background: rgba(25, 25, 25);
 		text-align: center;
 	}
-
+	
 	.timer {
-		padding-left: 8px;
+		background-color: #616161;
+	}
+
+	.laps-counter {
+		padding: 3px; 
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		background-color: rgba(76, 76, 76);
+		font-family: Rugen;
+		color: white;
 	}
 	
+	.laps-counter h2 {
+		margin: 0;
+	}
 </style>
 

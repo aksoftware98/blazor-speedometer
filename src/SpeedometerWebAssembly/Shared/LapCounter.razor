@@ -1,7 +1,15 @@
 ﻿<div class="d-flex justify-content-center align-items-center flex-column">
-	<div class="laps-counter text-center">
-		<h4 style="margin-bottom:0">Lap @_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
-	</div>
+	@if (_isFinished)
+	{
+		<img src="images/chequered-flag.png" />
+	}
+	else
+	{
+		<div class="laps-counter text-center">
+			<h4 style="margin-bottom:0">Lap @_lapNumber/@(_laps?.Count.ToString() ?? "---")</h4>
+		</div>
+	}
+
 	<div class="time-board d-flex" style="@_borderStyles" @onclick="StartAsync">
 		<div style="@_positionStyles" class="position flex-shrink-0 d-flex justify-content-center align-items-center">
 			<h2>@_position</h2>
@@ -69,5 +77,8 @@
 		width: 165px;
 	}
 	
+	img {
+		width: 100px;
+	}
 </style>
 

@@ -25,6 +25,7 @@ namespace SpeedometerWebAssembly.Shared
 
         private List<Lap>? _laps = null;
         private bool _isStarted = false;
+        private bool _isFinished = false;
         private string? _time = "Warm Up";
         private int _position = 1;
         private int _lapNumber = 0;
@@ -110,8 +111,9 @@ namespace SpeedometerWebAssembly.Shared
                 else
                     Preview(_laps[i - 1], currentLap);
             }
-            await Task.Delay(5000);
+            await Task.Delay(7500);
             _time = "Finish";
+            _isFinished = true;
         }
 
         private void Preview(Lap previousLap, Lap currentLap)
@@ -160,6 +162,7 @@ namespace SpeedometerWebAssembly.Shared
                 {
                     _isPreview = false;
                     StateHasChanged();
+                    _isFinished = true;
                     timer.Stop();
                     timer.Dispose();
                 }

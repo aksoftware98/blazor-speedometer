@@ -14,6 +14,7 @@ using Microsoft.JSInterop;
 using SpeedometerWebAssembly;
 using SpeedometerWebAssembly.Shared;
 using System.Text.Json.Serialization;
+using BlazorComponentUtilities;
 
 namespace SpeedometerWebAssembly.Pages
 {
@@ -22,9 +23,15 @@ namespace SpeedometerWebAssembly.Pages
 
         [Inject]
         public HttpClient? HttpClient { get; set; }
-
-        private int _speed = 0;
+        
         private Random random = new();
+
+        private string _currentSpeedCssClasses => new CssBuilder()
+                                                        .AddClass("fast-speed", _currentSpeed > 69)
+                                                        .AddClass("normal-speed", _currentSpeed <= 69)
+                                                        .Build();
+
+
         private async Task StartSpeedAsync()
         {
             var timer = new System.Timers.Timer();
@@ -50,7 +57,7 @@ namespace SpeedometerWebAssembly.Pages
         {
             await FetchAsync();
             StateHasChanged();
-            await Task.Delay(15000);
+            await Task.Delay(5000);
             await StartSpeedAsync();
         }
 
@@ -62,7 +69,7 @@ namespace SpeedometerWebAssembly.Pages
         private async Task FetchAsync()
         {
             _isBusy = true;
-            var model = await HttpClient!.GetFromJsonAsync<GpsModel>("GX020010_1_GPS5.json");
+            var model = await HttpClient!.GetFromJsonAsync<GpsModel>("Session_GPS.json");
             _records = model?.Values;
             _isBusy = false;
 

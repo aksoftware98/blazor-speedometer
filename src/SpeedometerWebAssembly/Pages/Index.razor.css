@@ -1,0 +1,22 @@
+﻿@keyframes flickeringanimation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+.fast-speed {
+    animation: flickeringanimation 0.2s infinite;
+    color: #ff2828;
+}
+
+.normal-speed {
+    color: white;
+}
